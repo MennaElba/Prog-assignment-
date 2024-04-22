@@ -1,0 +1,72 @@
+public class EcommerceSystem {
+    public static void main(String[] args) {
+        // Create new customer using Scanner
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your customer ID: ");
+        int newCustomerId = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter your name: ");
+        String newName = scanner.nextLine();
+        System.out.print("Enter your address: ");
+        String newAddress = scanner.nextLine();
+
+        Customer newCustomer = new Customer(newCustomerId, newName, newAddress);
+
+        // Create new cart using Scanner
+        System.out.print("How many products do you want to order? ");
+        int newNProducts = Integer.parseInt(scanner.nextLine());
+        Cart newCart = new Cart(newCustomer.getCustomerId(), newNProducts);
+
+        // Add products to new cart using Scanner
+        for (int i = 0; i < newNProducts; i++) {
+            System.out.println("Enter product type (1. Electronic, 2. Clothing, 3. Book): ");
+            int productType = Integer.parseInt(scanner.nextLine());
+
+            System.out.print("Enter product name: ");
+            String productName = scanner.nextLine();
+            System.out.print("Enter product ID: ");
+int productId = Integer.parseInt(scanner.nextLine());
+            System.out.print("Enter product price: ");
+            float productPrice = Float.parseFloat(scanner.nextLine());
+
+            switch (productType) {
+                case 1:
+                    System.out.print("Enter brand: ");
+                    String brand = scanner.nextLine();
+                    System.out.print("Enter warranty period: ");
+                    int warrantyPeriod = Integer.parseInt(scanner.nextLine());
+                    newCart.addProduct(new ElectronicProduct(productId, productName, productPrice, brand, warrantyPeriod), i);
+                    break;
+                case 2:
+                    System.out.print("Enter size: ");
+                    String size = scanner.nextLine();
+                    System.out.print("Enter fabric: ");
+                    String fabric = scanner.nextLine();
+                    newCart.addProduct(new ClothingProduct(productId, productName, productPrice, size, fabric), i);
+                    break;
+                case 3:
+                    System.out.print("Enter author: ");
+                    String author = scanner.nextLine();
+                    System.out.print("Enter publisher: ");
+                    String publisher = scanner.nextLine();
+                    newCart.addProduct(new BookProduct(productId, productName, productPrice, author, publisher), i);
+                    break;
+                default:
+                    System.out.println("Invalid product type. Please try again.");
+                    i--;  // Decrement counter to retry this iteration
+                    break;
+            }
+        }
+
+        // Ask if user wants to place order
+        System.out.print("Do you want to place an order? (yes/no): ");
+        String choice = scanner.nextLine();
+        if ("yes".equalsIgnoreCase(choice)) {
+            Order newOrder = new Order(newCustomer.getCustomerId(), 2, newCart.products);
+            newOrder.printOrderInfo();
+        } else {
+            System.out.println("Order not placed.");
+        }
+
+        scanner.close();
+    }
+}

@@ -1,0 +1,42 @@
+public class Order {
+    private int customerId;
+    private int orderId;
+    private Product[] products;
+    private float totalPrice;
+
+    public Order(int customerId, int orderId, Product[] products) {
+        this.customerId = Math.abs(customerId);
+        this.orderId = Math.abs(orderId);
+        this.products = products;
+        this.totalPrice = calculateTotalPrice();
+    }
+
+    // Getter for totalPrice
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    // Method to calculate total price
+    private float calculateTotalPrice() {
+        float totalPrice = 0;
+        for (Product product : products) {
+            if (product != null) {
+                totalPrice += product.getPrice();
+            }
+        }
+        return totalPrice;
+    }
+
+    // Method to print order info
+    public void printOrderInfo() {
+        System.out.println("Order ID: " + orderId);
+        System.out.println("Customer ID: " + customerId);
+        System.out.println("Products:");
+        for (Product product : products) {
+            if (product != null) {
+                System.out.println("- " + product.getName() + ", Price: " + product.getPrice());
+            }
+        }
+        System.out.println("Total Price: " + totalPrice);
+    }
+}
